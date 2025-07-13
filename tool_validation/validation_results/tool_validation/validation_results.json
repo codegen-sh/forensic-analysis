@@ -1,0 +1,199 @@
+{
+  "validation_results": [
+    {
+      "test_name": "duration_accuracy",
+      "tool_name": "ffmpeg",
+      "expected_value": 10.0,
+      "actual_value": 10.0,
+      "error_rate": 0.0,
+      "confidence_level": 1.0,
+      "metadata": {
+        "test_type": "duration",
+        "unit": "seconds"
+      },
+      "timestamp": "2025-07-13 21:58:16"
+    },
+    {
+      "test_name": "fps_accuracy",
+      "tool_name": "ffmpeg",
+      "expected_value": 30.0,
+      "actual_value": 30.0,
+      "error_rate": 0.0,
+      "confidence_level": 1.0,
+      "metadata": {
+        "test_type": "frame_rate",
+        "unit": "fps"
+      },
+      "timestamp": "2025-07-13 21:58:16"
+    },
+    {
+      "test_name": "resolution_accuracy",
+      "tool_name": "ffmpeg",
+      "expected_value": [
+        1920,
+        1080
+      ],
+      "actual_value": [
+        1920,
+        1080
+      ],
+      "error_rate": 0.0,
+      "confidence_level": 1.0,
+      "metadata": {
+        "test_type": "resolution",
+        "unit": "pixels"
+      },
+      "timestamp": "2025-07-13 21:58:16"
+    },
+    {
+      "test_name": "compression_ratio_accuracy",
+      "tool_name": "ffmpeg",
+      "expected_value": 0.02,
+      "actual_value": 0.00010887506430041152,
+      "error_rate": 0.9945562467849794,
+      "confidence_level": 0.0054437532150205525,
+      "metadata": {
+        "test_type": "compression_ratio",
+        "file_size": 203187,
+        "uncompressed_size": 1866240000.0
+      },
+      "timestamp": "2025-07-13 21:58:16"
+    },
+    {
+      "test_name": "version_consistency",
+      "tool_name": "ffmpeg",
+      "expected_value": 10.0,
+      "actual_value": 10.0,
+      "error_rate": 0.0,
+      "confidence_level": 1.0,
+      "metadata": {
+        "test_type": "consistency",
+        "iterations": 10,
+        "measurements": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ],
+        "std_dev": 0.0
+      },
+      "timestamp": "2025-07-13 21:58:22"
+    }
+  ],
+  "reliability_metrics": {
+    "ffmpeg": {
+      "tool_name": "ffmpeg",
+      "version_info": null,
+      "accuracy_rate": 0.8010887506430041,
+      "error_rate": 0.1989112493569959,
+      "confidence_interval": [
+        0.4112227019032922,
+        1
+      ],
+      "consistency_score": 0.5552209249483459,
+      "platform_variations": {
+        "Linux": 0.8010887506430041
+      },
+      "test_results": [
+        {
+          "test_name": "duration_accuracy",
+          "tool_name": "ffmpeg",
+          "expected_value": 10.0,
+          "actual_value": 10.0,
+          "error_rate": 0.0,
+          "confidence_level": 1.0,
+          "metadata": {
+            "test_type": "duration",
+            "unit": "seconds"
+          },
+          "timestamp": "2025-07-13 21:58:16"
+        },
+        {
+          "test_name": "fps_accuracy",
+          "tool_name": "ffmpeg",
+          "expected_value": 30.0,
+          "actual_value": 30.0,
+          "error_rate": 0.0,
+          "confidence_level": 1.0,
+          "metadata": {
+            "test_type": "frame_rate",
+            "unit": "fps"
+          },
+          "timestamp": "2025-07-13 21:58:16"
+        },
+        {
+          "test_name": "resolution_accuracy",
+          "tool_name": "ffmpeg",
+          "expected_value": [
+            1920,
+            1080
+          ],
+          "actual_value": [
+            1920,
+            1080
+          ],
+          "error_rate": 0.0,
+          "confidence_level": 1.0,
+          "metadata": {
+            "test_type": "resolution",
+            "unit": "pixels"
+          },
+          "timestamp": "2025-07-13 21:58:16"
+        },
+        {
+          "test_name": "compression_ratio_accuracy",
+          "tool_name": "ffmpeg",
+          "expected_value": 0.02,
+          "actual_value": 0.00010887506430041152,
+          "error_rate": 0.9945562467849794,
+          "confidence_level": 0.0054437532150205525,
+          "metadata": {
+            "test_type": "compression_ratio",
+            "file_size": 203187,
+            "uncompressed_size": 1866240000.0
+          },
+          "timestamp": "2025-07-13 21:58:16"
+        },
+        {
+          "test_name": "version_consistency",
+          "tool_name": "ffmpeg",
+          "expected_value": 10.0,
+          "actual_value": 10.0,
+          "error_rate": 0.0,
+          "confidence_level": 1.0,
+          "metadata": {
+            "test_type": "consistency",
+            "iterations": 10,
+            "measurements": [
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0,
+              10.0
+            ],
+            "std_dev": 0.0
+          },
+          "timestamp": "2025-07-13 21:58:22"
+        }
+      ]
+    }
+  },
+  "tool_versions": {},
+  "platform_info": {
+    "system": "Linux",
+    "release": "4.4.0",
+    "machine": "x86_64",
+    "python_version": "3.13.5"
+  }
+}
