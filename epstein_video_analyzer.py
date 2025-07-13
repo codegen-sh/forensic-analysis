@@ -288,17 +288,19 @@ class EpsteinVideoAnalyzer:
         for i, splice_point in enumerate(self.splice_points):
             seconds = splice_point['seconds']
             
-            # Extract frames 2 seconds before to 2 seconds after splice point
-            start_time = max(0, seconds - 2)
-            duration = 4
+            # Extract 10-15 frames: 5 seconds before to 5 seconds after splice point
+            start_time = max(0, seconds - 5)
+            duration = 10
             
             frame_dir = f"{self.frames_dir}/splice_{i+1}"
             if not os.path.exists(frame_dir):
                 os.makedirs(frame_dir)
             
             print(f"   📸 Extracting frames around {splice_point['time_string']}...")
+            print(f"      Time range: {start_time:.1f}s to {start_time + duration:.1f}s")
             
             try:
+                # Extract frames at 1 FPS to get ~10 frames
                 cmd = [
                     'ffmpeg', '-ss', str(start_time), '-i', self.video_filename,
                     '-t', str(duration), '-vf', 'fps=1', '-q:v', '2',
@@ -308,9 +310,18 @@ class EpsteinVideoAnalyzer:
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
                 
                 if result.returncode == 0:
+                    # Count extracted frames
+                    frame_files = [f for f in os.listdir(frame_dir) if f.endswith('.png')]
+                    frame_count = len(frame_files)
+                    
+                    # Store frame info for HTML slider
+                    splice_point['frame_files'] = sorted(frame_files)
+                    splice_point['frame_count'] = frame_count
+                    splice_point['frame_dir'] = frame_dir
+                    
                     # Analyze frame sizes for discontinuities
                     self.analyze_frame_discontinuities(frame_dir, splice_point)
-                    print(f"   ✅ Frames extracted to: {frame_dir}/")
+                    print(f"   ✅ {frame_count} frames extracted to: {frame_dir}/")
                 else:
                     print(f"   ❌ Frame extraction failed: {result.stderr}")
                     
@@ -318,6 +329,40 @@ class EpsteinVideoAnalyzer:
                 print(f"   ❌ Frame extraction error: {e}")
         
         return True
+    
+    def commit_frames_to_repo(self):
+        """Commit extracted frames to the repository for permanent storage."""
+        if not self.splice_points:
+            print("⚠️  No splice points with frames to commit")
+            return False
+        
+        print("📦 Committing extracted frames to repository...")
+        
+        try:
+            # Add all frame files to git
+            for i, splice_point in enumerate(self.splice_points):
+                if 'frame_dir' in splice_point:
+                    frame_dir = splice_point['frame_dir']
+                    if os.path.exists(frame_dir):
+                        # Add the entire frame directory
+                        cmd = ['git', 'add', frame_dir]
+                        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                        
+                        if result.returncode == 0:
+                            print(f"   ✅ Added {frame_dir}/ to git")
+                        else:
+                            print(f"   ⚠️  Warning: Could not add {frame_dir}/ to git: {result.stderr}")
+            
+            # Also add the frames directory structure
+            cmd = ['git', 'add', self.frames_dir]
+            subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            print("✅ Frames staged for commit")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Error committing frames: {e}")
+            return False
     
     def analyze_frame_discontinuities(self, frame_dir, splice_point):
         """Analyze frame file sizes for evidence of splicing."""
@@ -369,6 +414,29 @@ class EpsteinVideoAnalyzer:
                 
         except Exception as e:
             print(f"   ❌ Frame analysis error: {e}")
+    
+    def _generate_frame_data_js(self):
+        """Generate JavaScript data structure for frame viewers."""
+        js_data = []
+        
+        for i, splice_point in enumerate(self.splice_points):
+            if 'frame_files' in splice_point and splice_point['frame_files']:
+                frame_files = splice_point['frame_files']
+                frame_dir = splice_point['frame_dir']
+                
+                frame_list = []
+                for frame_file in frame_files:
+                    frame_list.append(f"""
+                    {{
+                        filename: "{frame_file}",
+                        path: "{frame_dir}/{frame_file}"
+                    }}""")
+                
+                js_data.append(f"""
+            {i}: [{','.join(frame_list)}
+            ]""")
+        
+        return ','.join(js_data)
     
     def generate_html_report(self):
         """Generate comprehensive HTML forensic report."""
@@ -492,6 +560,120 @@ class EpsteinVideoAnalyzer:
             border-top: 1px solid #333;
             color: #888;
         }}
+        
+        /* Frame Viewer Styles */
+        .frame-viewer {{
+            background: #1a1a1a;
+            border: 2px solid #4ecdc4;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }}
+        
+        .frame-container {{
+            text-align: center;
+            margin: 20px 0;
+        }}
+        
+        .frame-image {{
+            max-width: 100%;
+            max-height: 400px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background: #000;
+        }}
+        
+        .frame-info {{
+            margin: 10px 0;
+            color: #4ecdc4;
+            font-family: 'Courier New', monospace;
+        }}
+        
+        .frame-controls {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }}
+        
+        .frame-btn {{
+            background: #4ecdc4;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }}
+        
+        .frame-btn:hover {{
+            background: #45b7aa;
+        }}
+        
+        .frame-btn:disabled {{
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }}
+        
+        .frame-slider {{
+            flex: 1;
+            max-width: 300px;
+            height: 8px;
+            background: #333;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+        }}
+        
+        .frame-slider::-webkit-slider-thumb {{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            cursor: pointer;
+        }}
+        
+        .frame-slider::-moz-range-thumb {{
+            width: 20px;
+            height: 20px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }}
+        
+        .frame-timeline {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #888;
+        }}
+        
+        .splice-indicator {{
+            width: 4px;
+            height: 20px;
+            background: #ff6b6b;
+            border-radius: 2px;
+            position: relative;
+        }}
+        
+        .splice-indicator::before {{
+            content: "SPLICE";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }}
     </style>
 </head>
 <body>
@@ -602,6 +784,39 @@ class EpsteinVideoAnalyzer:
                 html += """
             </table>
 """
+                
+                # Add frame slider if frames were extracted
+                if 'frame_files' in splice_point and splice_point['frame_files']:
+                    frame_files = splice_point['frame_files']
+                    frame_dir = splice_point['frame_dir']
+                    
+                    html += f"""
+            <div class="frame-viewer">
+                <h4>🎬 Frame Analysis - Splice Point #{i+1}</h4>
+                <p>Interactive frame viewer showing {len(frame_files)} frames around the splice point:</p>
+                
+                <div class="frame-container">
+                    <img id="frame-image-{i}" src="{frame_dir}/{frame_files[0]}" alt="Frame 1" class="frame-image">
+                    <div class="frame-info">
+                        <span id="frame-counter-{i}">Frame 1 of {len(frame_files)}</span>
+                        <span id="frame-filename-{i}">{frame_files[0]}</span>
+                    </div>
+                </div>
+                
+                <div class="frame-controls">
+                    <button onclick="previousFrame({i})" class="frame-btn">◀ Previous</button>
+                    <input type="range" id="frame-slider-{i}" min="0" max="{len(frame_files)-1}" value="0" 
+                           onchange="updateFrame({i})" oninput="updateFrame({i})" class="frame-slider">
+                    <button onclick="nextFrame({i})" class="frame-btn">Next ▶</button>
+                </div>
+                
+                <div class="frame-timeline">
+                    <span>Before Splice</span>
+                    <div class="splice-indicator"></div>
+                    <span>After Splice</span>
+                </div>
+            </div>
+"""
             
             html += """
             <div class="command-block">
@@ -663,6 +878,80 @@ ls -la frames/*.png | awk '{print $9, $5}'
             <p>For technical details, see: <a href="https://github.com/codegen-sh/forensic-analysis" style="color: #4ecdc4;">GitHub Repository</a></p>
         </div>
     </div>
+    
+    <script>
+        // Frame viewer data - populated by Python
+        const frameData = {{
+{self._generate_frame_data_js()}
+        }};
+        
+        function updateFrame(spliceIndex) {{
+            const slider = document.getElementById(`frame-slider-${{spliceIndex}}`);
+            const frameIndex = parseInt(slider.value);
+            const frames = frameData[spliceIndex];
+            
+            if (frames && frameIndex < frames.length) {{
+                const frameImage = document.getElementById(`frame-image-${{spliceIndex}}`);
+                const frameCounter = document.getElementById(`frame-counter-${{spliceIndex}}`);
+                const frameFilename = document.getElementById(`frame-filename-${{spliceIndex}}`);
+                
+                frameImage.src = frames[frameIndex].path;
+                frameImage.alt = `Frame ${{frameIndex + 1}}`;
+                frameCounter.textContent = `Frame ${{frameIndex + 1}} of ${{frames.length}}`;
+                frameFilename.textContent = frames[frameIndex].filename;
+                
+                // Update button states
+                const prevBtn = document.querySelector(`button[onclick="previousFrame(${{spliceIndex}})"]`);
+                const nextBtn = document.querySelector(`button[onclick="nextFrame(${{spliceIndex}})"]`);
+                
+                prevBtn.disabled = frameIndex === 0;
+                nextBtn.disabled = frameIndex === frames.length - 1;
+            }}
+        }}
+        
+        function previousFrame(spliceIndex) {{
+            const slider = document.getElementById(`frame-slider-${{spliceIndex}}`);
+            const currentValue = parseInt(slider.value);
+            if (currentValue > 0) {{
+                slider.value = currentValue - 1;
+                updateFrame(spliceIndex);
+            }}
+        }}
+        
+        function nextFrame(spliceIndex) {{
+            const slider = document.getElementById(`frame-slider-${{spliceIndex}}`);
+            const currentValue = parseInt(slider.value);
+            const maxValue = parseInt(slider.max);
+            if (currentValue < maxValue) {{
+                slider.value = currentValue + 1;
+                updateFrame(spliceIndex);
+            }}
+        }}
+        
+        // Initialize frame viewers on page load
+        document.addEventListener('DOMContentLoaded', function() {{
+            Object.keys(frameData).forEach(spliceIndex => {{
+                updateFrame(parseInt(spliceIndex));
+            }});
+        }});
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {{
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {{
+                // Find the currently focused frame viewer
+                const activeElement = document.activeElement;
+                if (activeElement && activeElement.classList.contains('frame-slider')) {{
+                    const spliceIndex = activeElement.id.split('-')[2];
+                    if (e.key === 'ArrowLeft') {{
+                        previousFrame(parseInt(spliceIndex));
+                    }} else {{
+                        nextFrame(parseInt(spliceIndex));
+                    }}
+                    e.preventDefault();
+                }}
+            }}
+        }});
+    </script>
 </body>
 </html>
 """
@@ -719,6 +1008,9 @@ ls -la frames/*.png | awk '{print $9, $5}'
         
         # Extract frames around splice points
         self.extract_splice_frames()
+        
+        # Commit frames to repository
+        self.commit_frames_to_repo()
         
         # Generate reports
         self.generate_html_report()
