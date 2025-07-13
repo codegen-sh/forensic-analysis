@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Forensic Analysis Report{% endblock %}</title>
+    <meta name="description" content="{% block description %}Professional forensic analysis report{% endblock %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .attribution {
+            text-align: center;
+            background: linear-gradient(135deg, #64748b, #475569);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            color: #1e293b;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header h2 {
+            color: #3b82f6;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .critical-alert {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 2px solid #fca5a5;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 6px solid #dc2626;
+        }
+        
+        .critical-alert h3 {
+            color: #dc2626;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .critical-alert ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .critical-alert li {
+            margin: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #7f1d1d;
+        }
+        
+        .critical-alert li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        /* Vertical Stats Grid */
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .evidence-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .evidence-card h3 {
+            color: #1e293b;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .evidence-card p {
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        
+        .command-block {
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border: 1px solid #cbd5e1;
+            font-size: 0.9rem;
+        }
+        
+        .highlight {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .metadata-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .metadata-table th, .metadata-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        .metadata-table th {
+            background: #f8fafc;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .metadata-table td {
+            color: #475569;
+        }
+        
+        .frame-viewer {
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+        }
+        
+        .frame-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .frame-image {
+            max-width: 100%;
+            max-height: 400px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+        
+        .frame-info {
+            margin: 15px 0;
+            color: #3b82f6;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .frame-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .frame-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .frame-btn:hover {
+            background: #2563eb;
+        }
+        
+        .frame-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        
+        .frame-slider {
+            flex: 1;
+            max-width: 300px;
+            margin: 0 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .stats-grid {
+                max-width: 100%;
+            }
+            
+            .evidence-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .frame-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .frame-slider {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="attribution">
+            Compiled by Codegen and Jay Hack, 2025
+        </div>
+        
+        {% block content %}{% endblock %}
+        
+        <div class="footer">
+            <p>Generated by Forensic Analysis Tool</p>
+            <p>For technical questions, contact the development team</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,7 +1,10 @@
 # Jeffrey Epstein Prison Video Forensic Analysis
 # Python Dependencies
 
-# No external Python packages required - uses only standard library
+# Template engine for HTML report generation
+jinja2>=3.0.0
+
+# No other external Python packages required - uses only standard library
 # However, you need these system tools installed:
 
 # System Dependencies (install via package manager):
@@ -36,4 +39,3 @@
 
 # The analysis relies on external command-line tools rather than Python packages
 # to ensure compatibility with industry-standard digital forensics workflows.
-
