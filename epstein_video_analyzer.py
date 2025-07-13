@@ -38,6 +38,9 @@ class EpsteinVideoAnalyzer:
         self.source_clips = []
         self.metadata = {}
         
+        # Video properties
+        self.fps = 0  # Frame rate for calculating actual video frame indices
+        
     def setup_directories(self):
         """Create necessary directories for analysis output."""
         print("🔧 Setting up analysis directories...")
@@ -153,6 +156,9 @@ class EpsteinVideoAnalyzer:
                         height = stream.get('height', 0)
                         fps = eval(stream.get('r_frame_rate', '0/1'))
                         codec = stream.get('codec_name', 'unknown')
+                        
+                        # Store fps for frame index calculations
+                        self.fps = fps
                         
                         print(f"   Resolution: {width}x{height}")
                         print(f"   Frame rate: {fps:.2f} fps")
@@ -376,45 +382,79 @@ class EpsteinVideoAnalyzer:
                 print("   ⚠️  Insufficient frames for analysis")
                 return
             
+            # Calculate the start time for frame extraction (from extract_splice_frames)
+            seconds = splice_point['seconds']
+            start_time = max(0, seconds - 5)
+            
             frame_sizes = []
-            for frame_file in frame_files:
+            for i, frame_file in enumerate(frame_files):
                 frame_path = os.path.join(frame_dir, frame_file)
                 size = os.path.getsize(frame_path)
-                frame_sizes.append((frame_file, size))
+                
+                # Calculate actual video frame index
+                # Each extracted frame represents start_time + i seconds (since fps=1 extraction)
+                frame_timestamp = start_time + i
+                actual_video_frame = int(frame_timestamp * self.fps) if self.fps > 0 else i
+                
+                frame_sizes.append((frame_file, size, actual_video_frame, frame_timestamp))
             
             # Look for significant size changes between consecutive frames
             max_change = 0
             max_change_pair = None
             
             for i in range(1, len(frame_sizes)):
-                prev_file, prev_size = frame_sizes[i-1]
-                curr_file, curr_size = frame_sizes[i]
+                prev_file, prev_size, prev_video_frame, prev_timestamp = frame_sizes[i-1]
+                curr_file, curr_size, curr_video_frame, curr_timestamp = frame_sizes[i]
                 
                 change = curr_size - prev_size
                 pct_change = (change / prev_size) * 100
                 
                 if abs(pct_change) > abs(max_change):
                     max_change = pct_change
-                    max_change_pair = (prev_file, curr_file, change, pct_change)
+                    max_change_pair = (prev_file, curr_file, change, pct_change, 
+                                     prev_video_frame, curr_video_frame, prev_timestamp, curr_timestamp)
                 
                 if abs(pct_change) > 5:
                     print(f"      🚨 Significant discontinuity: {prev_file} → {curr_file}")
+                    print(f"         Video frames: {prev_video_frame} → {curr_video_frame}")
                     print(f"         Size change: {change:+,} bytes ({pct_change:+.1f}%)")
             
             if max_change_pair:
-                prev_f, curr_f, change_bytes, pct = max_change_pair
+                prev_f, curr_f, change_bytes, pct, prev_video_frame, curr_video_frame, prev_timestamp, curr_timestamp = max_change_pair
+                
+                # Find the actual file sizes for the frames with max discontinuity
+                prev_size = next((size for file, size, vf, ts in frame_sizes if file == prev_f), 0)
+                curr_size = next((size for file, size, vf, ts in frame_sizes if file == curr_f), 0)
+                
                 splice_point['max_discontinuity'] = {
                     'from_frame': prev_f,
                     'to_frame': curr_f,
+                    'from_video_frame': prev_video_frame,
+                    'to_video_frame': curr_video_frame,
+                    'from_timestamp': prev_timestamp,
+                    'to_timestamp': curr_timestamp,
+                    'size_before': prev_size,
+                    'size_after': curr_size,
                     'size_change_bytes': change_bytes,
                     'size_change_percent': pct
                 }
                 
                 if abs(pct) > 2:
-                    print(f"      📊 Largest discontinuity: {pct:+.1f}% between {prev_f} and {curr_f}")
+                    print(f"      📊 Largest discontinuity: {pct:+.1f}% between video frames {prev_video_frame} and {curr_video_frame}")
                 
         except Exception as e:
             print(f"   ❌ Frame analysis error: {e}")
+    
+    def _format_timestamp(self, seconds):
+        """Format seconds into HH:MM:SS format."""
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = int(seconds % 60)
+        return f"{hours}h{minutes:02d}m{secs:02d}s"
+    
+    def _format_file_size(self, size_bytes):
+        """Format file size in bytes with commas."""
+        return f"{size_bytes:,} bytes"
     
     def _generate_frame_data_js(self):
         """Generate JavaScript data structure for frame viewers."""
@@ -550,14 +590,29 @@ class EpsteinVideoAnalyzer:
             # Add visual evidence if frame discontinuity exists
             if 'max_discontinuity' in main_splice:
                 disc = main_splice['max_discontinuity']
+                
+                # Use actual video frame indices if available, fallback to extraction indices
+                frame_before = disc.get('from_video_frame', disc.get('from_frame', 2))
+                frame_after = disc.get('to_video_frame', disc.get('to_frame', 3))
+                
+                # Format timestamps if available
+                time_before = self._format_timestamp(disc.get('from_timestamp', 23759))
+                time_after = self._format_timestamp(disc.get('to_timestamp', 23760))
+                
+                # Format file sizes with actual values from analysis
+                size_before = self._format_file_size(disc.get('size_before', 2155188))
+                size_after = self._format_file_size(disc.get('size_after', 2263396))
+                size_change_bytes = disc.get('size_change_bytes', 108208)
+                size_change_formatted = f"{size_change_bytes:+,} bytes ({disc['size_change_percent']:+.1f}%)"
+                
                 context['visual_evidence'] = {
-                    'frame_before': disc.get('from_frame', 2),
-                    'time_before': '6h36m00s',
-                    'size_before': '2,155,188 bytes',
-                    'frame_after': disc.get('to_frame', 3),
-                    'time_after': '6h36m01s',
-                    'size_after': '2,263,396 bytes',
-                    'size_change_formatted': f"+108,208 bytes ({disc['size_change_percent']:+.1f}%)",
+                    'frame_before': frame_before,
+                    'time_before': time_before,
+                    'size_before': size_before,
+                    'frame_after': frame_after,
+                    'time_after': time_after,
+                    'size_after': size_after,
+                    'size_change_formatted': size_change_formatted,
                     'commands': [
                         'ffmpeg -ss 23759 -t 4 -vf "fps=1" frames/frame_%03d.png',
                         'ls -la frames/frame_003.png'
