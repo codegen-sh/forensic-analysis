@@ -249,6 +249,80 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            /* Mobile-specific frame viewer improvements */
+            .frame-viewer {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .frame-container {
+                margin: 15px 0;
+            }
+            
+            .frame-info {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+                margin: 10px 0;
+                padding: 8px;
+                font-size: 0.8em;
+            }
+            
+            .frame-info span {
+                display: block;
+                width: 100%;
+            }
+            
+            /* Hide delivery info on mobile */
+            .performance-info {
+                display: none;
+            }
+            
+            /* Mobile frame controls layout */
+            .frame-controls {
+                flex-direction: column;
+                gap: 15px;
+                margin: 15px 0;
+            }
+            
+            .frame-controls-top {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                order: 1;
+            }
+            
+            .frame-slider {
+                order: 2;
+                max-width: 100%;
+                margin: 0 10px;
+            }
+            
+            .frame-btn {
+                padding: 12px 20px;
+                font-size: 0.9em;
+                min-width: 80px;
+            }
+            
+            .frame-timeline {
+                margin: 10px 0;
+                font-size: 0.8em;
+            }
+            
+            .discontinuity-info {
+                margin: 15px 0;
+                padding: 12px;
+            }
+            
+            .discontinuity-info ul {
+                margin: 8px 0 0 15px;
+            }
+            
+            .discontinuity-info li {
+                margin: 6px 0;
+                font-size: 0.9em;
+            }
         }
         
         /* Frame Slider Styles */
@@ -310,6 +384,10 @@
             align-items: center;
             gap: 15px;
             margin: 20px 0;
+        }
+        
+        .frame-controls-top {
+            display: contents;
         }
         
         .frame-btn {
@@ -533,11 +611,13 @@ Size Change: <span class="highlight">+108,208 bytes (+5.0%)</span>
                     </div>
                     
                     <div class="frame-controls">
-                        <button onclick="previousFrame()" class="frame-btn">◀ Previous</button>
+                        <div class="frame-controls-top">
+                            <button onclick="previousFrame()" class="frame-btn">◀ Previous</button>
+                            <button onclick="nextFrame()" class="frame-btn">Next ▶</button>
+                            <button onclick="toggleAutoPlay()" class="frame-btn" id="autoplay-btn">▶ Auto Play</button>
+                        </div>
                         <input type="range" id="frame-slider" min="0" max="9" value="0" 
                                onchange="updateFrame()" oninput="updateFrame()" class="frame-slider">
-                        <button onclick="nextFrame()" class="frame-btn">Next ▶</button>
-                        <button onclick="toggleAutoPlay()" class="frame-btn" id="autoplay-btn">▶ Auto Play</button>
                     </div>
                     
                     <div class="frame-timeline">
