@@ -1,0 +1,39 @@
+# Jeffrey Epstein Prison Video Forensic Analysis
+# Python Dependencies
+
+# No external Python packages required - uses only standard library
+# However, you need these system tools installed:
+
+# System Dependencies (install via package manager):
+# - ffmpeg (video processing)
+# - ffprobe (usually comes with ffmpeg)
+# - exiftool (metadata extraction)
+
+# Installation instructions by platform:
+
+# Ubuntu/Debian:
+# sudo apt update
+# sudo apt install ffmpeg exiftool python3
+
+# macOS (with Homebrew):
+# brew install ffmpeg exiftool python3
+
+# Windows:
+# 1. Install Python from https://python.org
+# 2. Download ffmpeg from https://ffmpeg.org/download.html and add to PATH
+# 3. Download exiftool from https://exiftool.org and add to PATH
+
+# All required functionality is provided by Python's standard library:
+# - os (file operations)
+# - sys (system operations)
+# - json (JSON processing)
+# - subprocess (running external commands)
+# - urllib.request (downloading files)
+# - re (regular expressions)
+# - base64 (encoding)
+# - datetime (timestamp handling)
+# - xml.etree.ElementTree (XML parsing)
+
+# The analysis relies on external command-line tools rather than Python packages
+# to ensure compatibility with industry-standard digital forensics workflows.
+
