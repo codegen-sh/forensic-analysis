@@ -11,6 +11,9 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codegen-sh.github.io/forensic-analysis/">
     
+    <!-- Enhanced Styles -->
+    <link rel="stylesheet" href="css/enhanced_visualization.css">
+    
     <style>
         * {
             margin: 0;
@@ -121,16 +124,7 @@
             margin-bottom: 15px;
         }
         
-        .command-block {
-            background: #000;
-            color: #00ff00;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            margin: 15px 0;
-            overflow-x: auto;
-            border: 1px solid #333;
-        }
+        /* Command blocks now styled in enhanced_visualization.css */
         
         .highlight {
             background: linear-gradient(135deg, #ffd54f, #ffb300);
@@ -458,28 +452,48 @@
             <div class="evidence-card">
                 <h3>🔍 Adobe Editing Signatures</h3>
                 <p>Definitive proof of professional video editing software usage:</p>
-                <div class="command-block">
+                
+                <div class="command-section">
+                    <div class="command-summary collapsed" onclick="toggleCommand(this)">
+                        <h4>📋 Metadata Evidence</h4>
+                        <p>Adobe Media Encoder 2024.0 signatures found in video metadata</p>
+                    </div>
+                    <div class="command-details collapsed">
+                        <div class="command-block">
 CreatorTool: <span class="highlight">Adobe Media Encoder 2024.0 (Windows)</span>
 WindowsAtomUncProjectPath: <span class="highlight">MJCOLE~1</span>
 Project: <span class="highlight">mcc_4.prproj</span>
-                </div>
-                <p><strong>Command used:</strong></p>
-                <div class="command-block">
-exiftool -CreatorTool -WindowsAtomUncProjectPath raw_video.mp4
+                        </div>
+                        <p><strong>Command to reproduce:</strong></p>
+                        <div class="command-block-wrapper">
+                            <div class="command-block">exiftool -CreatorTool -WindowsAtomUncProjectPath raw_video.mp4</div>
+                            <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="evidence-card">
                 <h3>⏰ Splice Point Calculation</h3>
                 <p>Adobe timing metadata reveals exact splice location:</p>
-                <div class="command-block">
+                
+                <div class="command-section">
+                    <div class="command-summary collapsed" onclick="toggleCommand(this)">
+                        <h4>🧮 Timing Analysis</h4>
+                        <p>Decoded Adobe's proprietary timing format to locate exact splice point</p>
+                    </div>
+                    <div class="command-details collapsed">
+                        <div class="command-block">
 Adobe Timing: time:0d<span class="highlight">6035539564454400</span>f<span class="highlight">254016000000</span>
 Calculation: 6035539564454400 ÷ 254016000000
 Result: <span class="highlight">23760.47 seconds = 6h 36m 0s</span>
-                </div>
-                <p><strong>Command used:</strong></p>
-                <div class="command-block">
-python3 -c "print(6035539564454400 / 254016000000)"
+                        </div>
+                        <p><strong>Command to reproduce:</strong></p>
+                        <div class="command-block-wrapper">
+                            <div class="command-block">python3 -c "print(6035539564454400 / 254016000000)"</div>
+                            <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -627,25 +641,37 @@ Time Zone: Eastern Daylight Time (UTC-4)
             <div class="step">
                 <h4>1. Metadata Extraction</h4>
                 <p>Used ExifTool to extract all embedded metadata, including Adobe's proprietary XMP editing data.</p>
-                <div class="command-block">exiftool -j -a -u -g1 raw_video.mp4</div>
+                <div class="command-block-wrapper">
+                    <div class="command-block">exiftool -j -a -u -g1 raw_video.mp4</div>
+                    <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                </div>
             </div>
             
             <div class="step">
                 <h4>2. Adobe XMP Analysis</h4>
                 <p>Parsed Adobe's internal editing metadata to identify software signatures and timing information.</p>
-                <div class="command-block">exiftool -xmp -b raw_video.mp4</div>
+                <div class="command-block-wrapper">
+                    <div class="command-block">exiftool -xmp -b raw_video.mp4</div>
+                    <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                </div>
             </div>
             
             <div class="step">
                 <h4>3. Timing Calculation</h4>
                 <p>Decoded Adobe's proprietary timing format to locate exact splice points in the video.</p>
-                <div class="command-block">python3 -c "print(6035539564454400 / 254016000000)"</div>
+                <div class="command-block-wrapper">
+                    <div class="command-block">python3 -c "print(6035539564454400 / 254016000000)"</div>
+                    <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                </div>
             </div>
             
             <div class="step">
                 <h4>4. Frame Extraction & Analysis</h4>
                 <p>Extracted frames around predicted splice points and analyzed file sizes for compression discontinuities.</p>
-                <div class="command-block">ffmpeg -ss 23759 -t 4 -vf "fps=1" frames/frame_%03d.png video.mp4</div>
+                <div class="command-block-wrapper">
+                    <div class="command-block">ffmpeg -ss 23759 -t 4 -vf "fps=1" frames/frame_%03d.png video.mp4</div>
+                    <button class="copy-button" onclick="copyCommand(this)">Copy</button>
+                </div>
             </div>
         </div>
         
@@ -907,6 +933,52 @@ Time Zone: Eastern Daylight Time (UTC-4)
                 autoPlayBtn.style.background = "#ff6b6b";
             }
         }
+        
+        // Enhanced Command Section Functionality
+        function toggleCommand(element) {
+            const details = element.nextElementSibling;
+            const isCollapsed = element.classList.contains('collapsed');
+            
+            if (isCollapsed) {
+                element.classList.remove('collapsed');
+                details.classList.remove('collapsed');
+                details.classList.add('expanded');
+            } else {
+                element.classList.add('collapsed');
+                details.classList.remove('expanded');
+                details.classList.add('collapsed');
+            }
+        }
+        
+        function copyCommand(button) {
+            const commandBlock = button.previousElementSibling;
+            const text = commandBlock.textContent.trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                button.textContent = 'Failed';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        // Auto-expand first command section on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstCommandSummary = document.querySelector('.command-summary');
+            if (firstCommandSummary) {
+                toggleCommand(firstCommandSummary);
+            }
+        });
     </script>
 </body>
 </html>
