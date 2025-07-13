@@ -1,0 +1,80 @@
+{
+  "analysis_config": {
+    "sampling_rate": 1.0,
+    "analysis_window": 10.0,
+    "confidence_threshold": 0.7,
+    "anomaly_threshold": 2.0,
+    "parallel_workers": 4
+  },
+  "compression_analysis": {
+    "jpeg_quality": 95,
+    "block_size": 8,
+    "dct_analysis": true,
+    "entropy_calculation": true,
+    "edge_density_analysis": true
+  },
+  "optical_flow_analysis": {
+    "method": "lucas_kanade",
+    "window_size": [15, 15],
+    "max_level": 2,
+    "max_corners": 100,
+    "quality_level": 0.3,
+    "min_distance": 7,
+    "enable_dense_flow": true,
+    "flow_threshold": 0.5
+  },
+  "histogram_analysis": {
+    "hist_bins": 64,
+    "color_spaces": ["RGB", "HSV", "LAB"],
+    "dominant_colors_k": 5,
+    "correlation_threshold": 0.8,
+    "brightness_change_threshold": 15,
+    "temperature_change_threshold": 500
+  },
+  "noise_analysis": {
+    "noise_estimation_method": "laplacian",
+    "texture_analysis": true,
+    "glcm_analysis": true,
+    "lbp_analysis": true,
+    "frequency_analysis": true,
+    "compression_artifacts": true,
+    "blocking_detection": true,
+    "ringing_detection": true
+  },
+  "visualization": {
+    "chart_width": 1200,
+    "chart_height": 600,
+    "enable_zoom": true,
+    "enable_brush": true,
+    "show_legend": true,
+    "color_scheme": {
+      "compression": "#ff6b6b",
+      "optical_flow": "#4ecdc4",
+      "histogram": "#45b7d1",
+      "noise": "#96ceb4",
+      "anomaly_scores": "#feca57"
+    }
+  },
+  "output": {
+    "save_frames": true,
+    "save_timeseries": true,
+    "save_report": true,
+    "export_formats": ["json", "csv", "html"],
+    "frame_format": "png",
+    "chart_export_format": "svg"
+  },
+  "performance": {
+    "cache_frames": true,
+    "cache_analysis": true,
+    "max_cache_size_mb": 1024,
+    "enable_gpu": false,
+    "memory_limit_mb": 4096
+  },
+  "logging": {
+    "level": "INFO",
+    "log_to_file": true,
+    "log_file": "analysis.log",
+    "enable_progress_bar": true
+  }
+}
+
