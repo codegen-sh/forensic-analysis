@@ -17,6 +17,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Only deploy to Pages on push to main, not on pull requests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -36,4 +38,21 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
+        
+  # Add a simple validation job for pull requests
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Validate documentation
+        run: |
+          echo "Validating documentation structure..."
+          if [ -d "docs" ] && [ -f "docs/index.html" ]; then
+            echo "✅ Documentation structure is valid"
+          else
+            echo "❌ Documentation structure is invalid"
+            exit 1
+          fi
