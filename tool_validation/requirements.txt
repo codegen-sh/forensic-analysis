@@ -1,0 +1,42 @@
+# Forensic Tool Validation Framework Requirements
+# ==============================================
+
+# Core Python packages (usually included in standard library)
+# json
+# os
+# sys
+# subprocess
+# platform
+# hashlib
+# statistics
+# time
+# tempfile
+# shutil
+# logging
+# pathlib
+# dataclasses
+# typing
+
+# External dependencies (if needed for enhanced functionality)
+# Note: The framework is designed to work with standard library only
+# but these packages can enhance functionality if available
+
+# For enhanced statistical analysis (optional)
+# numpy>=1.21.0
+# scipy>=1.7.0
+
+# For advanced plotting (optional)
+# matplotlib>=3.5.0
+
+# For enhanced JSON handling (optional)
+# ujson>=4.0.0
+
+# System requirements:
+# - Python 3.7 or higher
+# - ffmpeg (system package)
+# - exiftool (system package)
+
+# Installation instructions:
+# Ubuntu/Debian: sudo apt install ffmpeg exiftool python3
+# macOS: brew install ffmpeg exiftool python3
+# Windows: Download from official websites and add to PATH
