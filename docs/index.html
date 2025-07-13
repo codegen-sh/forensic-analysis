@@ -24,6 +24,10 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
@@ -68,12 +72,12 @@
         }
         
         .critical-alert {
-            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            background: linear-gradient(135deg, #2d3748, #1a202c);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            border-left: 8px solid #ff5722;
-            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.3);
+            border-left: 8px solid #4ecdc4;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
         .critical-alert h3 {
@@ -502,35 +506,16 @@
         <div class="critical-alert">
             <h3>🎯 What our analysis reveals</h3>
             <ul>
-                <li><strong>Professional editing software was used:</strong> The video was processed through Adobe Media Encoder 2024.0</li>
-                <li><strong>Content was spliced together:</strong> Evidence shows multiple source files were combined</li>
-                <li><strong>We found the exact edit point:</strong> 39 seconds of content was replaced at the 6h 36m mark</li>
-                <li><strong>The original footage was altered:</strong> This breaks the chain of custody for evidence</li>
-                <li><strong>The labeling is misleading:</strong> Despite being called "raw," this video underwent extensive editing</li>
+                <li><strong><a href="#adobe-signatures" style="color: #4ecdc4; text-decoration: none;">Professional editing software was used:</a></strong> The video was processed through Adobe Media Encoder 2024.0</li>
+                <li><strong><a href="#splice-calculation" style="color: #4ecdc4; text-decoration: none;">Content was spliced together:</a></strong> Evidence shows multiple source files were combined</li>
+                <li><strong><a href="#splice-calculation" style="color: #4ecdc4; text-decoration: none;">We found the exact edit point:</a></strong> 39 seconds of content was replaced at the 6h 36m mark</li>
+                <li><strong><a href="#visual-evidence" style="color: #4ecdc4; text-decoration: none;">The original footage was altered:</a></strong> This breaks the chain of custody for evidence</li>
+                <li><strong><a href="#adobe-signatures" style="color: #4ecdc4; text-decoration: none;">The labeling is misleading:</a></strong> Despite being called "raw," this video underwent extensive editing</li>
             </ul>
         </div>
         
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-number">19.5</span>
-                <div class="stat-label">GB Video File</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">10.9</span>
-                <div class="stat-label">Hours Duration</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">6:36</span>
-                <div class="stat-label">Splice Location</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">5.0%</span>
-                <div class="stat-label">Frame Size Change</div>
-            </div>
-        </div>
-        
         <div class="evidence-grid">
-            <div class="evidence-card">
+            <div class="evidence-card" id="adobe-signatures">
                 <h3>🔍 First, we can determine that the video was edited by professional editing software</h3>
                 <p>The video's metadata contains unmistakable digital fingerprints from Adobe Media Encoder 2024.0, proving this "raw surveillance footage" was actually processed through professional video editing software:</p>
                 
@@ -554,7 +539,7 @@ Project: <span class="highlight">mcc_4.prproj</span>
                 </div>
             </div>
             
-            <div class="evidence-card">
+            <div class="evidence-card" id="splice-calculation">
                 <h3>⏰ Next, we can pinpoint exactly where the video was spliced</h3>
                 <p>Adobe's editing software left behind precise timing data that allows us to calculate the exact moment where content was removed from the original footage:</p>
                 
@@ -578,7 +563,7 @@ Result: <span class="highlight">23760.47 seconds = 6h 36m 0s</span>
                 </div>
             </div>
             
-            <div class="evidence-card">
+            <div class="evidence-card" id="visual-evidence">
                 <h3>🎬 Finally, we can see visual proof of the editing in the video frames themselves</h3>
                 <p>When we examine the individual frames around the calculated splice point, we find a telltale compression discontinuity that confirms our analysis:</p>
                 <div class="command-block">
