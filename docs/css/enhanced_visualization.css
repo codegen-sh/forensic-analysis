@@ -462,6 +462,252 @@
     transition: width 0.3s ease;
 }
 
+/* Enhanced Command Block Styles */
+.command-block {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    color: #e8e8e8;
+    padding: 20px 24px;
+    border-radius: 12px;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 20px 0;
+    overflow-x: auto;
+    border: 1px solid #404040;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.command-block::before {
+    content: "💻";
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+.command-block .highlight {
+    background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(78, 205, 196, 0.3);
+}
+
+/* Evidence Card Enhancements */
+.evidence-card {
+    background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 24px 0;
+    border-left: 4px solid #4ecdc4;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.evidence-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4ecdc4, #45b7d1, #96ceb4);
+    opacity: 0.6;
+}
+
+.evidence-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    border-left-color: #45b7d1;
+}
+
+.evidence-card h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.evidence-card p {
+    color: #d0d0d0;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+/* Expandable Command Sections */
+.command-section {
+    margin: 20px 0;
+}
+
+.command-summary {
+    background: linear-gradient(135deg, #3a3a3a 0%, #2e2e2e 100%);
+    padding: 16px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid #4a4a4a;
+    transition: all 0.2s ease;
+    user-select: none;
+    position: relative;
+}
+
+.command-summary:hover {
+    background: linear-gradient(135deg, #404040 0%, #343434 100%);
+    border-color: #4ecdc4;
+}
+
+.command-summary::after {
+    content: "▼";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+    color: #4ecdc4;
+    font-size: 12px;
+}
+
+.command-summary.collapsed::after {
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+.command-summary h4 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.command-summary p {
+    margin: 8px 0 0 0;
+    color: #b0b0b0;
+    font-size: 14px;
+}
+
+.command-details {
+    margin-top: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.command-details.collapsed {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+}
+
+.command-details.expanded {
+    max-height: 500px;
+    opacity: 1;
+}
+
+/* Copy Button for Commands */
+.command-block-wrapper {
+    position: relative;
+}
+
+.copy-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(78, 205, 196, 0.1);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    color: #4ecdc4;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.copy-button:hover {
+    background: rgba(78, 205, 196, 0.2);
+    border-color: #4ecdc4;
+    color: #ffffff;
+}
+
+.copy-button.copied {
+    background: rgba(46, 213, 115, 0.2);
+    border-color: #2ed573;
+    color: #2ed573;
+}
+
+/* Methodology Section Improvements */
+.methodology {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+    border: 1px solid #404040;
+}
+
+.methodology h3 {
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.step {
+    background: rgba(78, 205, 196, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 3px solid #4ecdc4;
+    transition: all 0.2s ease;
+}
+
+.step:hover {
+    background: rgba(78, 205, 196, 0.08);
+    transform: translateX(4px);
+}
+
+.step h4 {
+    color: #4ecdc4;
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.step p {
+    color: #d0d0d0;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .command-block {
+        padding: 16px 20px;
+        font-size: 13px;
+        margin: 16px 0;
+    }
+    
+    .evidence-card {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .methodology {
+        padding: 24px;
+        margin: 24px 0;
+    }
+    
+    .step {
+        padding: 16px;
+    }
+}
+
 /* Accessibility */
 .sr-only {
     position: absolute;
@@ -474,4 +720,3 @@
     white-space: nowrap;
     border: 0;
 }
-
