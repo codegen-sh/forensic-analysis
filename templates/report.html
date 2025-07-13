@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .attribution {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .attribution h3 {
+            color: #34495e;
+            font-size: 1.1em;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header h2 {
+            color: #5d6d7e;
+            font-size: 1.3em;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            margin-top: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #5d6d7e;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .findings-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .findings-section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .findings-list {
+            list-style: none;
+        }
+        
+        .finding-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .finding-item:last-child {
+            border-bottom: none;
+        }
+        
+        .finding-title {
+            font-weight: 600;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+        
+        .finding-description {
+            color: #5d6d7e;
+            font-size: 0.95em;
+        }
+        
+        .evidence-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .evidence-section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .evidence-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .evidence-card h4 {
+            color: #2c3e50;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            background: #f39c12;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header h2 {
+                font-size: 1.1em;
+            }
+            
+            .stat-value {
+                font-size: 2em;
+            }
+            
+            .evidence-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Attribution -->
+        <div class="attribution">
+            <h3>Compiled by Codegen and Jay Hack, 2025</h3>
+        </div>
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>🔍 FORENSIC ANALYSIS REPORT</h1>
+            <h2>{{ subtitle }}</h2>
+            <p>{{ header_description }}</p>
+        </div>
+        
+        <!-- Statistics Cards (Vertical Layout) -->
+        <div class="stats-grid">
+            {% for stat in statistics %}
+            <div class="stat-card">
+                <span class="stat-value">{{ stat.value }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Critical Findings -->
+        <div class="findings-section">
+            <h3>🎯 Critical Findings</h3>
+            <ul class="findings-list">
+                {% for finding in critical_findings %}
+                <li class="finding-item">
+                    <div class="finding-title">{{ finding.title }}</div>
+                    <div class="finding-description">{{ finding.description }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Evidence Sections -->
+        <div class="evidence-section">
+            <h3>📋 Evidence Analysis</h3>
+            <div class="evidence-grid">
+                
+                <!-- Adobe Editing Signatures -->
+                {% if adobe_signatures %}
+                <div class="evidence-card">
+                    <h4>🔧 Adobe Editing Signatures</h4>
+                    <p>Definitive proof of professional video editing software usage:</p>
+                    {% for field, value in adobe_signatures %}
+                    <div class="code-block">
+                        <strong>{{ field }}:</strong><br>
+                        <span class="highlight">{{ value }}</span>
+                    </div>
+                    {% endfor %}
+                    <p><strong>Command used:</strong></p>
+                    <div class="code-block">
+                        exiftool -CreatorTool -<br>
+                        WindowsAtomUncProjectPath<br>
+                        raw_video.mp4
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Splice Point Calculation -->
+                {% if splice_calculation %}
+                <div class="evidence-card">
+                    <h4>🧮 Splice Point Calculation</h4>
+                    <p>Adobe timing metadata reveals exact splice location:</p>
+                    <div class="code-block">
+                        Adobe Timings<br>
+                        time: <span class="highlight">{{ splice_calculation.raw_numerator }}</span> / <span class="highlight">{{ splice_calculation.raw_denominator }}</span><br>
+                        Calculation: {{ splice_calculation.raw_numerator }} ÷ {{ splice_calculation.raw_denominator }}<br>
+                        = <span class="highlight">{{ splice_calculation.result_seconds }} seconds = {{ splice_calculation.time_string }}</span>
+                    </div>
+                    <p><strong>Command used:</strong></p>
+                    <div class="code-block">
+                        {{ splice_calculation.command }}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Visual Frame Evidence -->
+                {% if visual_evidence %}
+                <div class="evidence-card">
+                    <h4>📊 Visual Frame Evidence</h4>
+                    <p>Frame analysis confirms splice point with compression discontinuity:</p>
+                    <div class="code-block">
+                        Frame {{ visual_evidence.frame_before }} ({{ visual_evidence.time_before }}): <span class="highlight">{{ visual_evidence.size_before }}</span><br>
+                        Frame {{ visual_evidence.frame_after }} ({{ visual_evidence.time_after }}): <span class="highlight">{{ visual_evidence.size_after }}</span><br>
+                        Size Change: <span class="highlight">{{ visual_evidence.size_change_formatted }}</span>
+                    </div>
+                    <p><strong>Commands used:</strong></p>
+                    {% for command in visual_evidence.commands %}
+                    <div class="code-block">{{ command }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Source Clips Identified -->
+                {% if source_clips %}
+                <div class="evidence-card">
+                    <h4>📁 Source Clips Identified</h4>
+                    <p>Multiple source files found in Adobe XMP metadata:</p>
+                    {% for clip in source_clips %}
+                    <div class="code-block">
+                        <strong>Clip {{ loop.index }}:</strong> {{ clip.timestamp }}<br>
+                        {{ clip.filename }} ({{ clip.duration }})
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated by Forensic Analysis Tool</p>
+            <p>For technical questions, contact the development team</p>
+        </div>
+    </div>
+</body>
+</html>
