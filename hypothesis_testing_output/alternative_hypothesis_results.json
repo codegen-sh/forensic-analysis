@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-07-13T22:04:04.874052",
+  "video_path": "dummy_video.mp4",
+  "hypothesis_tests": [
+    {
+      "name": "Hardware Encoding Adjustments",
+      "description": "Automatic camera encoding adjustments cause metadata signatures",
+      "probability": 0.3,
+      "confidence_interval": [
+        0.19999999999999998,
+        0.4
+      ],
+      "p_value": 0.12,
+      "evidence": [],
+      "significant": false
+    },
+    {
+      "name": "Network Transmission Effects",
+      "description": "Network streaming causes compression and metadata artifacts",
+      "probability": 0.15,
+      "confidence_interval": [
+        0.04999999999999999,
+        0.25
+      ],
+      "p_value": 0.12,
+      "evidence": [],
+      "significant": false
+    },
+    {
+      "name": "Storage System Processing",
+      "description": "VMS or storage system processing causes metadata artifacts",
+      "probability": 0.25,
+      "confidence_interval": [
+        0.15,
+        0.35
+      ],
+      "p_value": 0.12,
+      "evidence": [],
+      "significant": false
+    },
+    {
+      "name": "Environmental Factors",
+      "description": "Scene changes and environmental factors cause compression variations",
+      "probability": 0.35,
+      "confidence_interval": [
+        0.24999999999999997,
+        0.44999999999999996
+      ],
+      "p_value": 0.12,
+      "evidence": [],
+      "significant": false
+    }
+  ],
+  "baseline_comparison": null,
+  "overall_assessment": {
+    "total_alternative_probability": 1.05,
+    "editing_probability": 0,
+    "conclusion": "Alternative explanations are plausible",
+    "confidence_assessment": "Low confidence in editing conclusion",
+    "recommendation": "Additional investigation required before concluding video editing"
+  }
+}
