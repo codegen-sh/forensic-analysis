@@ -62,7 +62,9 @@ class EpsteinVideoAnalyzer:
         
         for tool, description in required_tools.items():
             try:
-                result = subprocess.run([tool, '-version'], 
+                # exiftool uses -ver instead of -version
+                version_flag = '-ver' if tool == 'exiftool' else '-version'
+                result = subprocess.run([tool, version_flag], 
                                       capture_output=True, text=True, timeout=10)
                 if result.returncode == 0:
                     print(f"   ✅ {tool}: Available")
@@ -770,4 +772,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
