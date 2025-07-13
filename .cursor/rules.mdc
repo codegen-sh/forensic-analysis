@@ -1,0 +1,279 @@
+# Forensic Analysis Development Rules
+
+## Project Overview
+
+This is a **digital forensics research project** that provides computational analysis of the Jeffrey Epstein prison surveillance video. The project demonstrates professional video editing in supposedly "raw" DOJ footage through rigorous technical analysis using industry-standard tools.
+
+**📖 For comprehensive project information, see [manifesto.md](../manifesto.md)**
+
+## Project Structure
+
+### Core Files
+- `epstein_video_analyzer.py` - Main analysis script with comprehensive forensic capabilities
+- `forensic_notebook.py` - Interactive analysis notebook for step-by-step investigation
+- `requirements.txt` - Python dependencies (minimal, mostly standard library)
+- `optimize_images.sh` - Shell script for image compression and optimization
+
+### Output Directories
+- `docs/` - GitHub Pages documentation and live reports
+- `splice_frames/` - Extracted video frames around splice points
+- `templates/` - HTML templates for report generation
+
+### Generated Files
+- `analysis_report.html` - Main forensic report (generated)
+- `raw_video.mp4` - Downloaded DOJ video file (19.5 GB)
+- `metadata.json` - Complete extracted metadata
+- `xmp_metadata.xml` - Adobe XMP editing metadata
+- `splice_evidence_visualization.html` - Interactive frame comparison
+
+## Technology Stack
+
+### Core Analysis Tools
+- **Python 3.6+** - Primary programming language for automation
+- **FFmpeg** - Industry-standard video analysis and frame extraction
+- **ExifTool** - Comprehensive metadata examination tool
+- **Standard Python libraries** - json, subprocess, os, datetime, etc.
+
+### System Dependencies
+- **ffmpeg** - Video processing and frame extraction
+- **exiftool** - Metadata extraction and analysis
+- **python3** - Script execution environment
+
+### Output Generation
+- **HTML/CSS/JavaScript** - Interactive forensic reports
+- **JSON** - Structured metadata storage
+- **XML** - Adobe XMP metadata preservation
+- **PNG** - High-quality frame extraction
+- **Shell scripting** - Image optimization workflows
+
+## Development Guidelines
+
+### Environment Setup
+
+#### Ubuntu/Debian
+```bash
+sudo apt update
+sudo apt install ffmpeg exiftool python3 python3-pip
+pip install -r requirements.txt
+```
+
+#### macOS (Homebrew)
+```bash
+brew install ffmpeg exiftool python3
+pip install -r requirements.txt
+```
+
+#### Windows
+1. Install Python from https://python.org
+2. Download ffmpeg from https://ffmpeg.org and add to PATH
+3. Download exiftool from https://exiftool.org and add to PATH
+4. Run: `pip install -r requirements.txt`
+
+### Code Standards
+
+#### Python Development
+- **Python 3.6+ compatibility** - Use features available in Python 3.6+
+- **Standard library preference** - Minimize external dependencies
+- **Clear documentation** - Comprehensive docstrings and comments
+- **Error handling** - Robust exception handling for file operations
+- **Cross-platform** - Code should work on Windows, macOS, and Linux
+
+#### Forensic Analysis Standards
+- **Reproducible results** - All analysis steps must be repeatable
+- **Metadata preservation** - Never modify original evidence
+- **Chain of custody** - Document all processing steps
+- **Verification commands** - Provide manual verification methods
+- **Technical accuracy** - Use industry-standard forensic practices
+
+### File Handling
+
+#### Large File Management
+- **Efficient processing** - Handle 19.5 GB video files efficiently
+- **Progress indicators** - Show download and processing progress
+- **Disk space checks** - Verify sufficient space before operations
+- **Cleanup options** - Provide options to remove large temporary files
+
+#### Output Organization
+- **Structured directories** - Organize outputs by type and purpose
+- **Descriptive naming** - Use clear, descriptive file names
+- **Timestamp preservation** - Maintain original timestamps where relevant
+- **Format consistency** - Use consistent formats for similar data
+
+### Analysis Methodology
+
+#### Metadata Extraction
+```bash
+# Extract comprehensive metadata
+exiftool -j -G -a -u -n raw_video.mp4 > metadata.json
+
+# Extract Adobe-specific metadata
+exiftool -XMP:All -b raw_video.mp4 > xmp_metadata.xml
+
+# Extract editing signatures
+exiftool -CreatorTool -WindowsAtomUncProjectPath raw_video.mp4
+```
+
+#### Frame Analysis
+```bash
+# Extract frames around splice points
+ffmpeg -ss 23759 -t 4 -vf "fps=1" -q:v 2 splice_frames/frame_%03d.png raw_video.mp4
+
+# Analyze frame discontinuities
+ls -la splice_frames/frame_*.png | awk '{print $9, $5}'
+```
+
+#### Splice Point Calculation
+```python
+# Calculate splice point from metadata
+splice_time_seconds = 6035539564454400 / 254016000000
+print(f"Splice point: {splice_time_seconds} seconds")
+```
+
+### Report Generation
+
+#### HTML Reports
+- **Professional formatting** - Clean, readable forensic reports
+- **Interactive elements** - Clickable frame comparisons
+- **Technical details** - Complete methodology documentation
+- **Visual evidence** - Embedded frame comparisons and charts
+
+#### Documentation Standards
+- **Step-by-step methodology** - Document every analysis step
+- **Command examples** - Provide exact commands for verification
+- **Technical explanations** - Explain forensic concepts clearly
+- **Troubleshooting guides** - Address common issues and solutions
+
+### Quality Assurance
+
+#### Testing Requirements
+- **Cross-platform testing** - Verify functionality on all supported platforms
+- **Large file handling** - Test with actual 19.5 GB video file
+- **Error condition testing** - Test network failures, disk space issues, etc.
+- **Output validation** - Verify all generated reports and data
+
+#### Code Review Standards
+- **Forensic accuracy** - Verify technical correctness of analysis
+- **Reproducibility** - Ensure others can replicate results
+- **Documentation quality** - Review clarity and completeness
+- **Security considerations** - Ensure no sensitive data exposure
+
+### Git Workflow
+
+#### Branch Management
+- **main** - Stable, tested code only
+- **feature/** - New analysis features or improvements
+- **fix/** - Bug fixes and corrections
+- **docs/** - Documentation updates
+
+#### Commit Standards
+- **Descriptive messages** - Clear description of changes
+- **Atomic commits** - One logical change per commit
+- **Testing verification** - Ensure commits don't break functionality
+- **Documentation updates** - Update docs with code changes
+
+### Deployment and Distribution
+
+#### GitHub Pages
+- **Live reports** - Host interactive analysis reports
+- **Documentation** - Maintain project documentation
+- **Version control** - Track report updates and improvements
+
+#### Release Management
+- **Versioned releases** - Tag stable versions
+- **Release notes** - Document changes and improvements
+- **Compatibility notes** - Document system requirements
+- **Migration guides** - Help users update between versions
+
+## Ethical and Legal Guidelines
+
+### Research Ethics
+- **Educational purpose** - Focus on forensic methodology education
+- **Technical analysis only** - Avoid speculation about events
+- **Transparency** - Provide complete methodology and source code
+- **Peer review** - Encourage independent verification
+
+### Legal Considerations
+- **Public domain analysis** - Work with publicly available evidence
+- **No content modification** - Never alter original evidence
+- **Fair use** - Educational and research purposes only
+- **Disclaimer inclusion** - Clear disclaimers about limitations
+
+### Data Handling
+- **No personal data** - Avoid processing personal information
+- **Evidence integrity** - Maintain original file integrity
+- **Secure storage** - Protect analysis data appropriately
+- **Retention policies** - Clear guidelines for data retention
+
+## Common Patterns
+
+### Error Handling
+```python
+try:
+    # Forensic operation
+    result = extract_metadata(video_file)
+except FileNotFoundError:
+    print("Error: Video file not found")
+    sys.exit(1)
+except subprocess.CalledProcessError as e:
+    print(f"Tool execution failed: {e}")
+    sys.exit(1)
+```
+
+### Progress Reporting
+```python
+def download_with_progress(url, filename):
+    """Download large files with progress indication"""
+    # Implementation with progress bars
+    pass
+```
+
+### Metadata Validation
+```python
+def validate_metadata(metadata):
+    """Validate extracted metadata for completeness"""
+    required_fields = ['CreatorTool', 'FileSize', 'Duration']
+    for field in required_fields:
+        if field not in metadata:
+            raise ValueError(f"Missing required metadata: {field}")
+```
+
+## Resources
+
+### Documentation
+- **Project Manifesto**: [manifesto.md](../manifesto.md)
+- **Live Analysis Report**: https://codegen-sh.github.io/forensic-analysis/
+- **README**: Complete setup and usage instructions
+
+### External Resources
+- **ExifTool Documentation**: https://exiftool.org/
+- **FFmpeg Documentation**: https://ffmpeg.org/documentation.html
+- **Digital Forensics Best Practices**: Industry standards and guidelines
+
+### Community
+- **GitHub Issues**: Bug reports and feature requests
+- **Discussions**: Technical questions and methodology discussions
+- **Contributions**: Code improvements and documentation updates
+
+## Troubleshooting
+
+### Common Issues
+- **Tool not found errors**: Ensure ffmpeg and exiftool are in PATH
+- **Download failures**: Check internet connection and disk space
+- **Memory issues**: Ensure sufficient RAM for large file processing
+- **Permission errors**: Verify write permissions in working directory
+
+### Performance Optimization
+- **Disk I/O**: Use SSD storage for better performance
+- **Memory usage**: Monitor memory consumption during analysis
+- **Network bandwidth**: Consider download time for large files
+- **CPU utilization**: Optimize for multi-core processing where possible
+
+## Questions?
+
+When working on this project:
+1. **Verify forensic accuracy** - Double-check all technical claims
+2. **Test reproducibility** - Ensure others can replicate results
+3. **Document methodology** - Explain every analysis step clearly
+4. **Maintain ethics** - Focus on technical analysis, not speculation
+
+Remember: This project advances digital forensics education and government transparency through rigorous technical analysis. Every contribution should uphold the highest standards of forensic integrity and scientific rigor.
