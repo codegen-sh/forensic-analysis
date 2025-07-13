@@ -68,12 +68,12 @@
         }
         
         .critical-alert {
-            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            background: linear-gradient(135deg, #2d4a5a, #1e3a4a);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            border-left: 8px solid #ff5722;
-            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.3);
+            border-left: 8px solid #4ecdc4;
+            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.2);
         }
         
         .critical-alert h3 {
@@ -94,10 +94,24 @@
         }
         
         .critical-alert li::before {
-            content: "🚨";
+            content: "🔍";
             position: absolute;
             left: 0;
             top: 0;
+        }
+        
+        .view-more-link {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .view-more-link:hover {
+            opacity: 1;
+            text-decoration: underline;
         }
         
         .evidence-grid {
@@ -502,35 +516,18 @@
         <div class="critical-alert">
             <h3>🎯 What our analysis reveals</h3>
             <ul>
-                <li><strong>Professional editing software was used:</strong> The video was processed through Adobe Media Encoder 2024.0</li>
-                <li><strong>Content was spliced together:</strong> Evidence shows multiple source files were combined</li>
-                <li><strong>We found the exact edit point:</strong> 39 seconds of content was replaced at the 6h 36m mark</li>
-                <li><strong>The original footage was altered:</strong> This breaks the chain of custody for evidence</li>
-                <li><strong>The labeling is misleading:</strong> Despite being called "raw," this video underwent extensive editing</li>
+                <li><strong>Professional editing software was used:</strong> The video was processed through Adobe Media Encoder 2024.0 <a href="#adobe-evidence" class="view-more-link">• view more</a></li>
+                <li><strong>Content was spliced together:</strong> Evidence shows multiple source files were combined <a href="#splice-evidence" class="view-more-link">• view more</a></li>
+                <li><strong>We found the exact edit point:</strong> 39 seconds of content was replaced at the 6h 36m mark <a href="#edit-point-evidence" class="view-more-link">• view more</a></li>
+                <li><strong>The original footage was altered:</strong> This breaks the chain of custody for evidence <a href="#custody-evidence" class="view-more-link">• view more</a></li>
+                <li><strong>The labeling is misleading:</strong> Despite being called "raw," this video underwent extensive editing <a href="#adobe-evidence" class="view-more-link">• view more</a></li>
             </ul>
         </div>
         
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-number">19.5</span>
-                <div class="stat-label">GB Video File</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">10.9</span>
-                <div class="stat-label">Hours Duration</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">6:36</span>
-                <div class="stat-label">Splice Location</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">5.0%</span>
-                <div class="stat-label">Frame Size Change</div>
-            </div>
-        </div>
+
         
         <div class="evidence-grid">
-            <div class="evidence-card">
+            <div class="evidence-card" id="adobe-evidence">
                 <h3>🔍 First, we can determine that the video was edited by professional editing software</h3>
                 <p>The video's metadata contains unmistakable digital fingerprints from Adobe Media Encoder 2024.0, proving this "raw surveillance footage" was actually processed through professional video editing software:</p>
                 
@@ -554,7 +551,7 @@ Project: <span class="highlight">mcc_4.prproj</span>
                 </div>
             </div>
             
-            <div class="evidence-card">
+            <div class="evidence-card" id="splice-evidence">
                 <h3>⏰ Next, we can pinpoint exactly where the video was spliced</h3>
                 <p>Adobe's editing software left behind precise timing data that allows us to calculate the exact moment where content was removed from the original footage:</p>
                 
@@ -578,7 +575,7 @@ Result: <span class="highlight">23760.47 seconds = 6h 36m 0s</span>
                 </div>
             </div>
             
-            <div class="evidence-card">
+            <div class="evidence-card" id="edit-point-evidence">
                 <h3>🎬 Finally, we can see visual proof of the editing in the video frames themselves</h3>
                 <p>When we examine the individual frames around the calculated splice point, we find a telltale compression discontinuity that confirms our analysis:</p>
                 <div class="command-block">
@@ -756,10 +753,22 @@ Total: <span class="highlight">39.32 seconds</span> of replacement content
             
             <p><strong>Research Sources:</strong></p>
             <div class="command-block">
-# Official reports confirm discovery time
-Jeffrey Epstein found unresponsive: ~6:30 AM EDT, August 10, 2019
-Location: Metropolitan Correctional Center, New York
-Time Zone: Eastern Daylight Time (UTC-4)
+# Primary Sources & Official Reports
+• DOJ Video Release: https://www.justice.gov/opa/media/1407001/dl
+• Jeffrey Epstein found unresponsive: ~6:30 AM EDT, August 10, 2019
+• Location: Metropolitan Correctional Center, New York
+• Time Zone: Eastern Daylight Time (UTC-4)
+
+# Forensic Analysis & Technical Reports
+• WIRED Investigation: https://www.wired.com/story/metadata-shows-the-dojs-raw-jeffrey-epstein-prison-video-was-likely-modified/
+• Newsweek Analysis: https://www.newsweek.com/jeffrey-epstein-raw-video-prison-likely-modified-analysts-2098133
+• Daily Mail Report: https://www.dailymail.co.uk/media/article-14901397/metadata-jeffrey-epstein-edited-video-clip-suicide-prison.html
+• Times of India Technical Details: https://timesofindia.indiatimes.com/world/us/epstein-files-was-the-us-dojs-jeffrey-epstein-prison-cell-video-edited-or-tampered-with-technical-details-explained/articleshow/122399294.cms
+
+# Academic Research on Video Forensics
+• CVF Paper - Forensic Analysis Using Metadata: https://openaccess.thecvf.com/content/CVPR2021W/WMF/papers/Xiang_Forensic_Analysis_of_Video_Files_Using_Metadata_CVPRW_2021_paper.pdf
+• ScienceDirect - Compression Ratio Patterns: https://www.sciencedirect.com/science/article/pii/S0379073819303020
+• ResearchGate - Metadata & Video Compression: https://www.researchgate.net/publication/371679147_The_Significance_of_Metadata_and_Video_Compression_for_Investigating_Video_Files_on_Social_Media_Forensic
             </div>
         </div>
         
@@ -811,7 +820,7 @@ Time Zone: Eastern Daylight Time (UTC-4)
             <a href="https://github.com/codegen-sh/forensic-analysis/archive/main.zip" class="cta-button">⬇️ Download Tools</a>
         </div>
         
-        <div class="evidence-card">
+        <div class="evidence-card" id="custody-evidence">
             <h3>⚖️ Legal and Ethical Implications</h3>
             <p>This computational analysis reveals several concerning issues:</p>
             <ul style="margin-left: 20px; margin-top: 15px;">
