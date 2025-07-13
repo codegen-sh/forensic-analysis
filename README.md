@@ -148,10 +148,24 @@ ls -la splice_frames/frame_*.png | awk '{print $9, $5}'
 
 ## 🔗 Related Resources
 
-- [Original Wired Article](https://www.wired.com/story/metadata-shows-the-dojs-raw-jeffrey-epstein-prison-video-was-likely-modified/)
-- [DOJ Video Release](https://www.justice.gov/opa/media/1407001/dl?inline)
-- [ExifTool Documentation](https://exiftool.org/)
-- [FFmpeg Documentation](https://ffmpeg.org/documentation.html)
+### Primary Sources & Official Reports
+- [DOJ Video Release](https://www.justice.gov/opa/media/1407001/dl?inline) - Original "raw" footage from DOJ
+- [Original Wired Investigation](https://www.wired.com/story/metadata-shows-the-dojs-raw-jeffrey-epstein-prison-video-was-likely-modified/) - First forensic analysis revealing editing
+
+### News Coverage & Analysis
+- [Newsweek Analysis](https://www.newsweek.com/jeffrey-epstein-raw-video-prison-likely-modified-analysts-2098133) - Independent verification of findings
+- [Daily Mail Report](https://www.dailymail.co.uk/media/article-14901397/metadata-jeffrey-epstein-edited-video-clip-suicide-prison.html) - Detailed coverage of metadata analysis
+- [Times of India Technical Breakdown](https://timesofindia.indiatimes.com/world/us/epstein-files-was-the-us-dojs-jeffrey-epstein-prison-cell-video-edited-or-tampered-with-technical-details-explained/articleshow/122399294.cms) - Technical explanation of findings
+- [Mediaite Coverage](https://www.mediaite.com/media/news/epstein-prison-video-was-allegedly-modified-before-being-made-public/) - Media analysis of implications
+
+### Academic Research on Video Forensics
+- [CVF Paper - Forensic Analysis Using Metadata](https://openaccess.thecvf.com/content/CVPR2021W/WMF/papers/Xiang_Forensic_Analysis_of_Video_Files_Using_Metadata_CVPRW_2021_paper.pdf) - Academic foundation for metadata analysis
+- [ScienceDirect - Compression Ratio Patterns](https://www.sciencedirect.com/science/article/pii/S0379073819303020) - Research on unique compression signatures
+- [ResearchGate - Metadata & Video Compression](https://www.researchgate.net/publication/371679147_The_Significance_of_Metadata_and_Video_Compression_for_Investigating_Video_Files_on_Social_Media_Forensic) - Comprehensive forensic methodology
+
+### Technical Documentation
+- [ExifTool Documentation](https://exiftool.org/) - Metadata extraction tool
+- [FFmpeg Documentation](https://ffmpeg.org/documentation.html) - Video analysis framework
 
 ## 🛠️ Troubleshooting
 
