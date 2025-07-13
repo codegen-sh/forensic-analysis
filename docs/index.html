@@ -506,9 +506,15 @@ Size Change: <span class="highlight">+108,208 bytes (+5.0%)</span>
                             <span id="frame-size">Size: Loading...</span>
                         </div>
                         <div class="performance-info" style="background: #1a1a1a; padding: 10px; margin-top: 10px; border-radius: 5px; font-size: 0.9em;">
-                            <span style="color: #4ecdc4;">⚡ Performance:</span> 
-                            <span id="format-info">WebP format (95% smaller)</span> | 
-                            <span id="load-time">Load time: <span id="load-duration">--</span>ms</span>
+                            <div style="margin-bottom: 5px;">
+                                <span style="color: #4ecdc4;">📊 Original Frame:</span> 
+                                <span id="original-size">2,116,047 bytes</span>
+                            </div>
+                            <div>
+                                <span style="color: #4ecdc4;">⚡ Delivery:</span> 
+                                <span id="format-info">WebP format (95% smaller)</span> | 
+                                <span id="load-time">Load time: <span id="load-duration">--</span>ms</span>
+                            </div>
                         </div>
                     </div>
                     
@@ -619,16 +625,16 @@ Total: <span class="highlight">39.32 seconds</span> of replacement content
     <script>
         // Frame data for the splice point analysis
         const frameData = [
-            { filename: "frame_001.png", webpPath: "splice_frames/splice_1/frame_001.webp", pngPath: "splice_frames/splice_1/frame_001.png", size: "126,622 bytes (WebP)", originalSize: "2,116,047 bytes", time: "6h35m55s" },
-            { filename: "frame_002.png", webpPath: "splice_frames/splice_1/frame_002.webp", pngPath: "splice_frames/splice_1/frame_002.png", size: "128,560 bytes (WebP)", originalSize: "2,084,324 bytes", time: "6h35m56s" },
-            { filename: "frame_003.png", webpPath: "splice_frames/splice_1/frame_003.webp", pngPath: "splice_frames/splice_1/frame_003.png", size: "127,938 bytes (WebP)", originalSize: "2,012,467 bytes", time: "6h35m57s" },
-            { filename: "frame_004.png", webpPath: "splice_frames/splice_1/frame_004.webp", pngPath: "splice_frames/splice_1/frame_004.png", size: "128,092 bytes (WebP)", originalSize: "2,086,191 bytes", time: "6h35m58s" },
-            { filename: "frame_005.png", webpPath: "splice_frames/splice_1/frame_005.webp", pngPath: "splice_frames/splice_1/frame_005.png", size: "125,750 bytes (WebP)", originalSize: "2,062,775 bytes", time: "6h35m59s" },
-            { filename: "frame_006.png", webpPath: "splice_frames/splice_1/frame_006.webp", pngPath: "splice_frames/splice_1/frame_006.png", size: "128,234 bytes (WebP)", originalSize: "2,108,242 bytes", time: "6h36m00s" },
-            { filename: "frame_007.png", webpPath: "splice_frames/splice_1/frame_007.webp", pngPath: "splice_frames/splice_1/frame_007.png", size: "128,360 bytes (WebP)", originalSize: "2,067,485 bytes", time: "6h36m01s" },
-            { filename: "frame_008.png", webpPath: "splice_frames/splice_1/frame_008.webp", pngPath: "splice_frames/splice_1/frame_008.png", size: "128,380 bytes (WebP)", originalSize: "2,048,178 bytes", time: "6h36m02s" },
-            { filename: "frame_009.png", webpPath: "splice_frames/splice_1/frame_009.webp", pngPath: "splice_frames/splice_1/frame_009.png", size: "124,338 bytes (WebP)", originalSize: "2,010,795 bytes", time: "6h36m03s" },
-            { filename: "frame_010.png", webpPath: "splice_frames/splice_1/frame_010.webp", pngPath: "splice_frames/splice_1/frame_010.png", size: "124,998 bytes (WebP)", originalSize: "2,055,549 bytes", time: "6h36m04s" }
+            { filename: "frame_001.png", webpPath: "splice_frames/splice_1/frame_001.webp", pngPath: "splice_frames/splice_1/frame_001.png", size: "2,116,047 bytes", webpSize: "126,622 bytes", time: "6h35m55s" },
+            { filename: "frame_002.png", webpPath: "splice_frames/splice_1/frame_002.webp", pngPath: "splice_frames/splice_1/frame_002.png", size: "2,084,324 bytes", webpSize: "128,560 bytes", time: "6h35m56s" },
+            { filename: "frame_003.png", webpPath: "splice_frames/splice_1/frame_003.webp", pngPath: "splice_frames/splice_1/frame_003.png", size: "2,012,467 bytes", webpSize: "127,938 bytes", time: "6h35m57s" },
+            { filename: "frame_004.png", webpPath: "splice_frames/splice_1/frame_004.webp", pngPath: "splice_frames/splice_1/frame_004.png", size: "2,086,191 bytes", webpSize: "128,092 bytes", time: "6h35m58s" },
+            { filename: "frame_005.png", webpPath: "splice_frames/splice_1/frame_005.webp", pngPath: "splice_frames/splice_1/frame_005.png", size: "2,062,775 bytes", webpSize: "125,750 bytes", time: "6h35m59s" },
+            { filename: "frame_006.png", webpPath: "splice_frames/splice_1/frame_006.webp", pngPath: "splice_frames/splice_1/frame_006.png", size: "2,108,242 bytes", webpSize: "128,234 bytes", time: "6h36m00s" },
+            { filename: "frame_007.png", webpPath: "splice_frames/splice_1/frame_007.webp", pngPath: "splice_frames/splice_1/frame_007.png", size: "2,067,485 bytes", webpSize: "128,360 bytes", time: "6h36m01s" },
+            { filename: "frame_008.png", webpPath: "splice_frames/splice_1/frame_008.webp", pngPath: "splice_frames/splice_1/frame_008.png", size: "2,048,178 bytes", webpSize: "128,380 bytes", time: "6h36m02s" },
+            { filename: "frame_009.png", webpPath: "splice_frames/splice_1/frame_009.webp", pngPath: "splice_frames/splice_1/frame_009.png", size: "2,010,795 bytes", webpSize: "124,338 bytes", time: "6h36m03s" },
+            { filename: "frame_010.png", webpPath: "splice_frames/splice_1/frame_010.webp", pngPath: "splice_frames/splice_1/frame_010.png", size: "2,055,549 bytes", webpSize: "124,998 bytes", time: "6h36m04s" }
         ];
         
         let currentFrameIndex = 0;
@@ -687,6 +693,7 @@ Total: <span class="highlight">39.32 seconds</span> of replacement content
                 const frameSize = document.getElementById('frame-size');
                 const formatInfo = document.getElementById('format-info');
                 const loadDuration = document.getElementById('load-duration');
+                const originalSize = document.getElementById('original-size');
                 
                 // Show loading indicator and start timing
                 showLoadingIndicator();
@@ -722,7 +729,14 @@ Total: <span class="highlight">39.32 seconds</span> of replacement content
                 frameSize.textContent = `Size: ${frame.size}`;
                 
                 // Update performance info
-                formatInfo.textContent = usingWebP ? 'WebP format (95% smaller)' : 'PNG format (fallback)';
+                originalSize.textContent = frame.size;
+                
+                // Calculate compression ratio for delivery optimization
+                const originalBytes = parseInt(frame.size.replace(/,/g, '').replace(' bytes', ''));
+                const webpBytes = parseInt(frame.webpSize.replace(/,/g, '').replace(' bytes', ''));
+                const compressionRatio = Math.round((1 - webpBytes / originalBytes) * 100);
+                
+                formatInfo.textContent = usingWebP ? `WebP format (${compressionRatio}% smaller)` : 'PNG format (fallback)';
                 loadDuration.textContent = loadTime;
                 
                 // Hide loading indicator
